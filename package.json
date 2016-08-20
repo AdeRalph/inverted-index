@@ -1,0 +1,32 @@
+{
+  "name": "inverted-index",
+  "version": "0.0.1",
+  "description": "Reads and creates an index from a json file and offers a search of that index",
+  "main": "server.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdeRalph/inverted-index.git"
+  },
+  "keywords": [
+    "jasmine",
+    "inverted-index",
+    "checkpoint1",
+    "andela"
+  ],
+  "author": "Oreofeoluwapo Olutola <oreofeoluwapo.olutola@andela.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdeRalph/inverted-index/issues"
+  },
+  "homepage": "https://github.com/AdeRalph/inverted-index#readme",
+  "devDependencies": {
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-import": "^1.13.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.1.2"
+  }
+}
