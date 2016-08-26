@@ -147,4 +147,18 @@ module.exports = class InvertedIndex {
     return terms.filter((value, pos, array) => array.indexOf(value) === pos
     );
   }
+
+  flattenSearchTerm(terms) {
+    if (Array.isArray(terms)) {
+      terms.forEach((val) => {
+        this.flattenSearchTerm(val);
+      });
+    } else if (terms.split(' ').length > 1) {
+      const termArray = this.tokenize(terms);
+      this.flattenSearchTerm(termArray);
+    } else {
+      terms = this.sanitize(terms);
+      this.searchTerms.push(terms);
+    }
+  }
 };
