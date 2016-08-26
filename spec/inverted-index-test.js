@@ -40,8 +40,14 @@ describe ('Populate index', function () {
   });
 
   it('should map string keys to correct objects', function() {
-    expect(index.indexes[booksFilename]["alice"]).toEqual([0]);
+    expect(index.indexes[booksFileName]["alice"]).toEqual([0]);
     expect(index.indexes[booksFileName]["a"]).toEqual([0,1]);
     expect(index.indexes[booksFileName]["an"]).toEqual([1]);
+  });
+
+  it("Ensure previous index is not overwritten by a new json file", function(){
+    index.createIndex(pages);
+    pageFileName = index.getFileName(pages);
+    expect(index.indexes[booksFileName]).not.toEqual(index.indexes[pages]);
   });
 });
