@@ -1,4 +1,5 @@
-/*jslint node: true */
+/* jslint node: true */
+/* eslint linebreak-style: ["error", "windows"]*/
 'use strict';
 const fs = require('fs');
 
@@ -12,9 +13,6 @@ class invertedIndex {
     this.lastSearchedFile = '';
     this.searchResult = [];
   }
-
-  
-
 }
 
-export default { invertedIndex };
+module.exports = invertedIndex;
