@@ -1,6 +1,5 @@
 /* jslint node: true */
 /* eslint linebreak-style: ["error", "windows"] */
-// 'use strict';
 
 var fs = require('fs');
 var InvertedIndex = require('../src/inverted-index.js');
