@@ -51,3 +51,15 @@ describe ('Populate index', function () {
     expect(index.indexes[booksFileName]).not.toEqual(index.indexes[pages]);
   });
 });
+
+/**
+ * Search Index test suite
+ */
+describe ('Search Index', function() {
+  beforeEach(function(){
+    index = new InvertedIndex();
+    index.createIndex(pages);
+    index.createIndex(books);
+    fileName = index.getFileName(books);
+  });
+});
