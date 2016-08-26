@@ -62,4 +62,8 @@ describe ('Search Index', function() {
     index.createIndex(books);
     fileName = index.getFileName(books);
   });
+
+  it("should return an array containing indices of the correct object", function() {
+    expect(index.searchIndex("a")).toEqual([[0,1]]);
+  });
 });
