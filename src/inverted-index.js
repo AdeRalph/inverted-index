@@ -31,6 +31,17 @@ module.exports = class InvertedIndex {
     this.indexes[fileName] = this.parseFileContent(fileName);
   }
 
+  getIndex(term) {
+    const filename = term;
+    const fileIndexName = this.getFileName(filename);
+
+    if (this.indexName.indexOf(fileIndexName) < 0) {
+      return 'No index availabale for this file';
+    }
+
+    return this.indexes[fileIndexName];
+  }
+
   // helper functions
   getFileName(path) {
     const pathArray = path.split('/');
