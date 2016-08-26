@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs');
 
-class invertedIndex {
+module.exports = class InvertedIndex {
   constructor() {
     this.indexName = [];
     this.jsonData = {};
@@ -14,5 +14,3 @@ class invertedIndex {
     this.searchResult = [];
   }
 }
-
-module.exports = invertedIndex;
