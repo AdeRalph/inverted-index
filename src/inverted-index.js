@@ -42,6 +42,49 @@ module.exports = class InvertedIndex {
     return this.indexes[fileIndexName];
   }
 
+  searchIndex(term, indexFileName) {
+    this.searchTerms = [];
+    this.searchResult = [];
+
+    if (!term || !(/\w+/gi.test(term))) {
+      return 'Please enter a search string';
+    }
+
+    this.flattenSearchTerm(term);
+
+    if (indexFileName && this.indexName.indexOf(indexFileName) < 0) {
+      return 'Please enter a valid file name';
+    } else if (this.indexName.indexOf(indexFileName) >= 0) {
+      this.lastSearchedFile = indexFileName;
+      const objectKeys = Object.keys(this.indexes[indexFileName]);
+
+      this.searchTerms.forEach((val) => {
+        if (objectKeys.indexOf(val) >= 0) {
+          this.searchResult.push(this.indexes[indexFileName][val]);
+        } else {
+          this.searchResult.push([]);
+        }
+      });
+    } else {
+      if (this.lastSearchedFile === '') {
+        const indexNameLength = this.indexName.length;
+        this.lastSearchedFile = this.indexName[indexNameLength - 1];
+      }
+
+      const objectKeys = Object.keys(this.indexes[this.lastSearchedFile]);
+
+      this.searchTerms.forEach((val) => {
+        if (objectKeys.indexOf(val) >= 0) {
+          this.searchResult.push(this.indexes[this.lastSearchedFile][val]);
+        } else {
+          this.searchResult.push([]);
+        }
+      });
+    }
+
+    return this.searchResult;
+  }
+
   // helper functions
   getFileName(path) {
     const pathArray = path.split('/');
