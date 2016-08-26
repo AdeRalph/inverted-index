@@ -70,4 +70,8 @@ describe ('Search Index', function() {
   it('should handle an array of search terms', function() {
     expect(index.searchIndex(['a', 'an', ['alice', 'wonderland', ['hobbit', 'dwarf']]])).toEqual([[0, 1], [1], [0], [0], [1], [1]]);
   });
+
+  it('should be able to handle a varied number of search terms', function(){
+    expect(index.searchIndex('a an alice wonderland hobbit dwarf')).toEqual([[0, 1], [1], [0], [0], [1], [1]]);
+  });
 });
