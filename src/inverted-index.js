@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* eslint linebreak-style: ["error", "windows"]*/
+/* eslint linebreak-style: ["off", "windows"]*/
 'use strict';
 
 const fs = require('fs');
