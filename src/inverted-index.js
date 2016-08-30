@@ -15,6 +15,10 @@ module.exports = class InvertedIndex {
     this.searchResult = [];
   }
 
+  /**
+   * createIndex takes in a string file path, indexes the file and stores it
+   * @param  {String} filePath path to the file
+   */
   createIndex(filePath) {
     const fileName = this.getFileName(filePath);
     const fileContent = fs.readFileSync(filePath, 'utf8');
@@ -31,6 +35,11 @@ module.exports = class InvertedIndex {
     this.indexes[fileName] = this.parseFileContent(fileName);
   }
 
+  /**
+   * getIndex takes in a string file name and  returns the index for that file
+   * @param  {String} term file name of for whose index is to be gotten
+   * @return {Object | String} index object of the file or a message indicating the no index exists
+   */
   getIndex(term) {
     const filename = term;
     const fileIndexName = this.getFileName(filename);
@@ -42,6 +51,12 @@ module.exports = class InvertedIndex {
     return this.indexes[fileIndexName];
   }
 
+  /**
+   * searchIndex searhces the index for a term or terms
+   * @param  {String | Array} term Could either be a string or an array of strings
+   * @param  {String} [indexFileName] optional parameter indicating the index to search
+   * @return {Array | String} return an array of indexes for the terms or an error message
+   */
   searchIndex(term, indexFileName) {
     this.searchTerms = [];
     this.searchResult = [];
@@ -81,17 +96,26 @@ module.exports = class InvertedIndex {
         }
       });
     }
-
     return this.searchResult;
   }
 
   // helper functions
+  /**
+   * get the filename from a string representing the file path
+   * @param  {String} path file path
+   * @return {String}      file name
+   */
   getFileName(path) {
     const pathArray = path.split('/');
     const arrayLength = pathArray.length;
     return pathArray[arrayLength - 1];
   }
 
+  /**
+   * Prepares the file content for index creation
+   * @param  {String} fileName
+   * @return {Object}          index object for the file content
+   */
   parseFileContent(fileName) {
     let fileIndex = {};
     const objectCount = {};
@@ -99,7 +123,7 @@ module.exports = class InvertedIndex {
     const fileJson = JSON.parse(fileContent);
     let counter = 0;
 
-    for (let arrayPos of fileJson) {
+    for (const arrayPos of fileJson) {
       const title = this.tokenize(arrayPos.title);
       const text = this.tokenize(arrayPos.text);
       const allContent = title.concat(text);
@@ -115,6 +139,11 @@ module.exports = class InvertedIndex {
     return fileIndex;
   }
 
+  /**
+   * creates index from file content
+   * @param  {Array} term array of file object content
+   * @return {Object}      index of file content
+   */
   createFileIndex(term) {
     const termKeys = Object.keys(term);
     const keyLength = termKeys.length;
@@ -133,21 +162,40 @@ module.exports = class InvertedIndex {
     return index;
   }
 
+  /**
+   * seperates a string into individual words
+   * @param  {String} terms
+   * @return {Array}
+   */
   tokenize(terms) {
     const termWithoutPunct = this.sanitize(terms);
     const termArray = termWithoutPunct.split(/\s+/g);
     return termArray;
   }
 
+  /**
+   * removes punctuations from a string
+   * @param  {String} term
+   * @return {String}
+   */
   sanitize(term) {
     return term.replace(/[.,:]/g, '').toLowerCase();
   }
 
+  /**
+   * removes duplicate words from the array
+   * @param  {Array} terms
+   * @return {Array}
+   */
   uniqueValues(terms) {
     return terms.filter((value, pos, array) => array.indexOf(value) === pos
     );
   }
 
+/**
+ * takes a string or nested array and turns in into a flat array
+ * @param  {String | Array} terms could be a string or nestd array
+ */
   flattenSearchTerm(terms) {
     if (Array.isArray(terms)) {
       terms.forEach((val) => {
