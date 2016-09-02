@@ -17,6 +17,7 @@ module.exports = class InvertedIndex {
   /**
    * createIndex takes in a string file path, indexes the file and stores it
    * @param  {String} filePath path to the file
+   * @return {void}
    */
   createIndex(filePath) {
     const fileName = this.getFileName(filePath);
@@ -122,16 +123,16 @@ module.exports = class InvertedIndex {
     const fileJson = JSON.parse(fileContent);
     let counter = 0;
 
-    for (const arrayPos of fileJson) {
-      const title = this.tokenize(arrayPos.title);
-      const text = this.tokenize(arrayPos.text);
+    Object.keys(fileJson).forEach((key) => {
+      const title = this.tokenize(fileJson[key].title);
+      const text = this.tokenize(fileJson[key].text);
       const allContent = title.concat(text);
       const uniqueContent = this.uniqueValues(allContent);
 
       objectCount[counter] = {};
       objectCount[counter] = uniqueContent;
       counter++;
-    }
+    });
 
     fileIndex = this.createFileIndex(objectCount);
 
@@ -148,15 +149,15 @@ module.exports = class InvertedIndex {
     const keyLength = termKeys.length;
     const index = {};
 
-    for (let i = 0; i < keyLength; i++) {
-      term[i].forEach((val) => {
+    termKeys.forEach((key) => {
+      term[key].forEach((val) => {
         if (!Object.hasOwnProperty.call(index, val)) {
           index[val] = [];
         }
 
-        index[val].push(i);
+        index[val].push(parseInt(key, 10));
       });
-    }
+    });
 
     return index;
   }
