@@ -7,6 +7,13 @@ var books = 'jasmine/books.json';
 var pages = 'jasmine/pages.json';
 var emptyFile = 'jasmine/inv-file.json';
 
+
+beforeAll(function(){
+  index = new InvertedIndex();
+  index.createIndex(pages);
+  index.createIndex(books);
+  booksFileName = index.getFileName(books);
+});
 /**
 * Test suite for testing book.json data
 */
@@ -25,12 +32,6 @@ describe ('Read book data', function () {
  * Populate index test suite
  */
 describe ('Populate index', function () {
-  beforeEach (function () {
-    index = new InvertedIndex();
-    index.createIndex(books);
-    booksFileName = index.getFileName(books);
-  });
-
   it('should create a new index when a file has been read', function () {
     expect(index.indexes).not.toBe({});
     expect(typeof index.indexes[booksFileName]).toBe('object');
@@ -54,12 +55,7 @@ describe ('Populate index', function () {
  * Search Index test suite
  */
 describe ('Search Index', function() {
-  beforeEach(function(){
-    index = new InvertedIndex();
-    index.createIndex(pages);
-    index.createIndex(books);
-    fileName = index.getFileName(books);
-  });
+
 
   it('should return an array containing indices of the correct object', function() {
     expect(index.searchIndex('a')).toEqual([[0,1]]);
