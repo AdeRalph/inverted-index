@@ -146,7 +146,6 @@ module.exports = class InvertedIndex {
    */
   createFileIndex(term) {
     const termKeys = Object.keys(term);
-    const keyLength = termKeys.length;
     const index = {};
 
     termKeys.forEach((key) => {
