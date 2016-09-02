@@ -1,5 +1,6 @@
 # Inverted-index
 [![Code Climate](https://codeclimate.com/github/AdeRalph/inverted-index/badges/gpa.svg)](https://codeclimate.com/github/AdeRalph/inverted-index)
+
 The inverted index is a structure used to perform the elasticsearch on a document to allow for fast searches. It contains the list of all unique words that appear on a document.
 
 
