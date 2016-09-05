@@ -61,40 +61,17 @@ module.exports = class InvertedIndex {
     this.searchTerms = [];
     this.searchResult = [];
 
-    if (!term || !(/\w+/gi.test(term))) {
-      return 'Please enter a search string';
-    }
-
     this.flattenSearchTerm(term);
 
-    if (indexFileName && this.indexName.indexOf(indexFileName) < 0) {
-      return 'Please enter a valid file name';
-    } else if (this.indexName.indexOf(indexFileName) >= 0) {
-      this.lastSearchedFile = indexFileName;
-      const objectKeys = Object.keys(this.indexes[indexFileName]);
-
-      this.searchTerms.forEach((val) => {
-        if (objectKeys.indexOf(val) >= 0) {
-          this.searchResult.push(this.indexes[indexFileName][val]);
-        } else {
-          this.searchResult.push([]);
-        }
-      });
+    if (this.indexName.indexOf(indexFileName) >= 0) {
+      this.setLastSearchedFile(indexFileName);
+      this.populateSearchResult(indexFileName);
     } else {
       if (this.lastSearchedFile === '') {
         const indexNameLength = this.indexName.length;
-        this.lastSearchedFile = this.indexName[indexNameLength - 1];
+        this.setLastSearchedFile(this.indexName[indexNameLength - 1]);
       }
-
-      const objectKeys = Object.keys(this.indexes[this.lastSearchedFile]);
-
-      this.searchTerms.forEach((val) => {
-        if (objectKeys.indexOf(val) >= 0) {
-          this.searchResult.push(this.indexes[this.lastSearchedFile][val]);
-        } else {
-          this.searchResult.push([]);
-        }
-      });
+      this.populateSearchResult(this.lastSearchedFile);
     }
     return this.searchResult;
   }
@@ -191,7 +168,7 @@ module.exports = class InvertedIndex {
     );
   }
 
-/**
+  /**
  * takes a string or nested array and turns in into a flat array
  * @param  {String | Array} terms could be a string or nestd array
  */
@@ -207,5 +184,31 @@ module.exports = class InvertedIndex {
       terms = this.sanitize(terms);
       this.searchTerms.push(terms);
     }
+  }
+
+  /**
+   * Takes in the index name, searches the index for the search terms
+   * @param  {String} indexName
+   * @return {void}
+   */
+  populateSearchResult(indexName) {
+    const objectKeys = Object.keys(this.indexes[indexName]);
+
+    this.searchTerms.forEach((val) => {
+      if (objectKeys.indexOf(val) >= 0) {
+        this.searchResult.push(this.indexes[indexName][val]);
+      } else {
+        this.searchResult.push([]);
+      }
+    });
+  }
+
+  /**
+   * sets the last searched file/index
+   * @param {String} indexName
+   * @return {void}
+   */
+  setLastSearchedFile(indexName) {
+    this.lastSearchedFile = indexName;
   }
 };
