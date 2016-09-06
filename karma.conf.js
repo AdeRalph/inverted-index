@@ -14,8 +14,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './node_modules/fs-extra/node_modules/graceful-fs/**/*.js',
-      './node_modules/fs-extra/**/*.js',
+      './node_modules/fs/*.js',
       'src/*.js',
       'spec/*-[tT]est.js'
     ],
@@ -28,8 +27,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './node_modules/fs-extra/node_modules/graceful-fs/**/*.js': ['commonjs'],
-      './node_modules/fs-extra/**/*.js': ['commonjs'],
+      './node_modules/fs/*.js': ['commonjs'],
       'src/*.js': ['commonjs'],
       'spec/*.js': ['commonjs']
     },

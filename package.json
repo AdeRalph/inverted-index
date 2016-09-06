@@ -35,7 +35,6 @@
     "karma-jasmine": "^0.3.5"
   },
   "dependencies": {
-    "fs-extra": "^0.30.0",
     "requirejs": "^2.3.1"
   }
 }
