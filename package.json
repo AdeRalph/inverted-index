@@ -4,7 +4,7 @@
   "description": "Reads and creates an index from a json file and offers a search of that index",
   "main": "server.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
