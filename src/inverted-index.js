@@ -1,7 +1,7 @@
 /* jslint node: true */
 'use strict';
 
-const fs = require('fs');
+const fs = require('fs-extra');
 
 module.exports = class InvertedIndex {
   constructor() {
