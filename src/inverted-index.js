@@ -16,12 +16,7 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   *
-   * Create Index
-   *
-   * CreateIndex takes in a string file path, indexes the file and stores
-   * the index
-   *
+   * createIndex takes in a string file path, indexes the file and stores the index
    * @param  {String} filePath path to the file
    * @return {void}
    */
@@ -44,7 +39,7 @@ module.exports = class InvertedIndex {
   /**
    * Get Index
    *
-   * GetIndex takes in a string file name and  returns the index for that file
+   * getIndex takes in a string file name and  returns the index for that file
    *
    * @param  {String} term file name for whose index is to be gotten
    * @return {Object | String} index object of the file or a message indicating
@@ -63,16 +58,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * Search Index
-   *
    * searchIndex searhces the index for a term or terms
-   *
-   * @param  {String | Array} term Could either be a string or an
-   * array of strings
-   * @param  {String} [indexFileName] optional parameter indicating the index
-   * to search
-   * @return {Array | String} return an array of indexes for the terms or an
-   * error message
+   * @param  {String | Array} term Could either be a string or an array of strings
+   * @param  {String} [indexFileName] optional parameter indicating the index to search
+   * @return {Array | String} return an array of indexes for the terms or an error message
    */
   searchIndex(term, indexFileName) {
     this.searchTerms = [];
