@@ -15,7 +15,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * createIndex takes in a string file path, indexes the file and stores it
+   * Create index
+   *
+   * CreateIndex takes in a string file path, indexes the file and stores it
+   * 
    * @param  {String} filePath path to the file
    * @return {void}
    */
@@ -36,9 +39,13 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * getIndex takes in a string file name and  returns the index for that file
+   * Get Index
+   *
+   * GetIndex takes in a string file name and  returns the index for that file
+   *
    * @param  {String} term file name of for whose index is to be gotten
-   * @return {Object | String} index object of the file or a message indicating the no index exists
+   * @return {Object | String} index object of the file or a message indicating
+   * the no index exists
    */
   getIndex(term) {
     const filename = term;
@@ -52,10 +59,16 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * searchIndex searhces the index for a term or terms
-   * @param  {String | Array} term Could either be a string or an array of strings
-   * @param  {String} [indexFileName] optional parameter indicating the index to search
-   * @return {Array | String} return an array of indexes for the terms or an error message
+   * Search Index
+   *
+   * SearchIndex searhces the index for a term or terms
+   *
+   * @param  {String | Array} term Could either be a string or an array
+   * of strings
+   * @param  {String} [indexFileName] optional parameter indicating the index
+   * to search
+   * @return {Array | String} return an array of indexes for the terms or an
+   * error message
    */
   searchIndex(term, indexFileName) {
     this.searchTerms = [];
@@ -78,7 +91,10 @@ module.exports = class InvertedIndex {
 
   // helper functions
   /**
-   * get the filename from a string representing the file path
+   * Get File Name
+   *
+   * Get the filename from a string representing the file path
+   *
    * @param  {String} path file path
    * @return {String}      file name
    */
@@ -89,7 +105,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
+   * Parse File Content
+   *
    * Prepares the file content for index creation
+   *
    * @param  {String} fileName
    * @return {Object}          index object for the file content
    */
@@ -117,7 +136,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * creates index from file content
+   * Create File Index
+   *
+   * Creates index from file content
+   *
    * @param  {Array} term array of file object content
    * @return {Object}      index of file content
    */
@@ -139,7 +161,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * seperates a string into individual words
+   * Tokenize
+   *
+   * Seperates a string into individual words
+   *
    * @param  {String} terms
    * @return {Array}
    */
@@ -150,7 +175,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * removes punctuations from a string
+   * Sanitize
+   *
+   * Removes punctuations from a string
+   *
    * @param  {String} term
    * @return {String}
    */
@@ -159,7 +187,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * removes duplicate words from the array
+   * Unique Values
+   *
+   * Removes duplicate words from the array
+   *
    * @param  {Array} terms
    * @return {Array}
    */
@@ -169,9 +200,13 @@ module.exports = class InvertedIndex {
   }
 
   /**
- * takes a string or nested array and turns in into a flat array
- * @param  {String | Array} terms could be a string or nestd array
- */
+   *  Flatten Search Term
+   *
+   * Takes a string or nested array and turns in into a flat array
+   *
+   * @param  {String | Array} terms could be a string or nestd array
+   * @return {void}
+   */
   flattenSearchTerm(terms) {
     if (Array.isArray(terms)) {
       terms.forEach((val) => {
@@ -187,7 +222,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
+   * Populate Search Result
+   *
    * Takes in the index name, searches the index for the search terms
+   *
    * @param  {String} indexName
    * @return {void}
    */
@@ -204,7 +242,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * sets the last searched file/index
+   * Set Last Searched File
+   *
+   * Sets the last searched file/index
+   *
    * @param {String} indexName
    * @return {void}
    */
