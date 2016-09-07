@@ -1,6 +1,3 @@
-/* jslint node: true */
-'use strict';
-
 const fs = require('fs');
 
 module.exports = class InvertedIndex {
@@ -18,7 +15,7 @@ module.exports = class InvertedIndex {
    * Create index
    *
    * CreateIndex takes in a string file path, indexes the file and stores it
-   * 
+   *
    * @param  {String} filePath path to the file
    * @return {void}
    */
@@ -28,10 +25,6 @@ module.exports = class InvertedIndex {
 
     if (fileContent.replace(/\s+/g, '').length === 0) {
       throw new Error('file has no content');
-    }
-
-    if (this.indexName.indexOf(fileName) < 0) {
-      this.indexName.push(fileName);
     }
 
     this.indexFileContent[fileName] = fileContent;
@@ -47,11 +40,10 @@ module.exports = class InvertedIndex {
    * @return {Object | String} index object of the file or a message indicating
    * the no index exists
    */
-  getIndex(term) {
-    const filename = term;
+  getIndex(filename) {
     const fileIndexName = this.getFileName(filename);
 
-    if (this.indexName.indexOf(fileIndexName) < 0) {
+    if (!Object.hasOwnProperty.call(this.indexes, fileIndexName)) {
       return 'No index availabale for this file';
     }
 
@@ -76,13 +68,13 @@ module.exports = class InvertedIndex {
 
     this.flattenSearchTerm(term);
 
-    if (this.indexName.indexOf(indexFileName) >= 0) {
+    if (Object.hasOwnProperty.call(this.indexes, indexFileName)) {
       this.setLastSearchedFile(indexFileName);
       this.populateSearchResult(indexFileName);
     } else {
       if (this.lastSearchedFile === '') {
-        const indexNameLength = this.indexName.length;
-        this.setLastSearchedFile(this.indexName[indexNameLength - 1]);
+        const indexNameLength = Object.keys(this.indexes).length;
+        this.setLastSearchedFile(Object.keys(this.indexes)[indexNameLength - 1]);
       }
       this.populateSearchResult(this.lastSearchedFile);
     }
@@ -100,8 +92,7 @@ module.exports = class InvertedIndex {
    */
   getFileName(path) {
     const pathArray = path.split('/');
-    const arrayLength = pathArray.length;
-    return pathArray[arrayLength - 1];
+    return pathArray[pathArray.length - 1];
   }
 
   /**
@@ -113,7 +104,6 @@ module.exports = class InvertedIndex {
    * @return {Object}          index object for the file content
    */
   parseFileContent(fileName) {
-    let fileIndex = {};
     const objectCount = {};
     const fileContent = this.indexFileContent[fileName];
     const fileJson = JSON.parse(fileContent);
@@ -122,17 +112,13 @@ module.exports = class InvertedIndex {
     Object.keys(fileJson).forEach((key) => {
       const title = this.tokenize(fileJson[key].title);
       const text = this.tokenize(fileJson[key].text);
-      const allContent = title.concat(text);
-      const uniqueContent = this.uniqueValues(allContent);
+      const uniqueContent = this.uniqueValues(title.concat(text));
 
-      objectCount[counter] = {};
       objectCount[counter] = uniqueContent;
       counter++;
     });
 
-    fileIndex = this.createFileIndex(objectCount);
-
-    return fileIndex;
+    return this.createFileIndex(objectCount);
   }
 
   /**
@@ -169,9 +155,7 @@ module.exports = class InvertedIndex {
    * @return {Array}
    */
   tokenize(terms) {
-    const termWithoutPunct = this.sanitize(terms);
-    const termArray = termWithoutPunct.split(/\s+/g);
-    return termArray;
+    return this.sanitize(terms).split(/\s+/g);
   }
 
   /**
@@ -230,10 +214,8 @@ module.exports = class InvertedIndex {
    * @return {void}
    */
   populateSearchResult(indexName) {
-    const objectKeys = Object.keys(this.indexes[indexName]);
-
     this.searchTerms.forEach((val) => {
-      if (objectKeys.indexOf(val) >= 0) {
+      if (Object.hasOwnProperty.call(this.indexes[indexName], val)) {
         this.searchResult.push(this.indexes[indexName][val]);
       } else {
         this.searchResult.push([]);
