@@ -4,6 +4,7 @@
 const fs = require('fs');
 
 module.exports = class InvertedIndex {
+
   constructor() {
     this.indexName = [];
     this.jsonData = {};
@@ -15,7 +16,7 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * createIndex takes in a string file path, indexes the file and stores it
+   * createIndex takes in a string file path, indexes the file and stores the index
    * @param  {String} filePath path to the file
    * @return {void}
    */
@@ -36,12 +37,17 @@ module.exports = class InvertedIndex {
   }
 
   /**
+   * Get Index
+   *
    * getIndex takes in a string file name and  returns the index for that file
-   * @param  {String} term file name of for whose index is to be gotten
-   * @return {Object | String} index object of the file or a message indicating the no index exists
+   *
+   * @param  {String} term file name for whose index is to be gotten
+   * @return {Object | String} index object of the file or a message indicating
+   * the no index exists
    */
-  getIndex(term) {
-    const filename = term;
+  getIndex(filename) {
+    // do away with this and use filename as the parameter name
+    // const filename = term;
     const fileIndexName = this.getFileName(filename);
 
     if (this.indexName.indexOf(fileIndexName) < 0) {
@@ -84,8 +90,7 @@ module.exports = class InvertedIndex {
    */
   getFileName(path) {
     const pathArray = path.split('/');
-    const arrayLength = pathArray.length;
-    return pathArray[arrayLength - 1];
+    return pathArray[pathArray.length - 1];
   }
 
   /**
