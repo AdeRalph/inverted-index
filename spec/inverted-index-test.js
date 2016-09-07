@@ -1,4 +1,4 @@
-/* jslint node: true */
+/* jshint node: true */
 
 var fs = require('fs');
 var InvertedIndex = require('../src/inverted-index.js');
@@ -50,8 +50,6 @@ describe('Populate index', function () {
  * Search Index test suite
  */
 describe('Search Index', function() {
-
-
   it('should return an array containing indices of the correct object', function(){
     expect(index.searchIndex('a')).toEqual([[0,1]]);
   });
