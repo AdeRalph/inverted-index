@@ -95,7 +95,10 @@ module.exports = class InvertedIndex {
 
   // helper functions
   /**
-   * get the filename from a string representing the file path
+   * Get File Name
+   *
+   * Get the filename from a string representing the file path
+   *
    * @param  {String} path file path
    * @return {String}      file name
    */
@@ -105,7 +108,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
+   * Parse File content
+   *
    * Prepares the file content for index creation
+   *
    * @param  {String} fileName
    * @return {Object}          index object for the file content
    */
@@ -133,7 +139,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * creates index from file content
+   * Create File Index
+   *
+   * Creates index from file content
+   *
    * @param  {Array} term array of file object content
    * @return {Object}      index of file content
    */
@@ -155,7 +164,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * seperates a string into individual words
+   * Tokenize
+   *
+   * Seperates a string into individual words
+   *
    * @param  {String} terms
    * @return {Array}
    */
@@ -166,7 +178,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * removes punctuations from a string
+   * Sanitize
+   *
+   * Removes punctuations from a string
+   *
    * @param  {String} term
    * @return {String}
    */
@@ -175,7 +190,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * removes duplicate words from the array
+   * Unique Values
+   *
+   * Removes duplicate words from the array
+   *
    * @param  {Array} terms
    * @return {Array}
    */
@@ -185,9 +203,13 @@ module.exports = class InvertedIndex {
   }
 
   /**
- * takes a string or nested array and turns in into a flat array
- * @param  {String | Array} terms could be a string or nestd array
- */
+   * Flatten Search Term
+   *
+   * Takes a string or nested array and turns in into a flat array
+   *
+   * @param  {String | Array} terms could be a string or nestd array
+   * @return {void}
+   */
   flattenSearchTerm(terms) {
     if (Array.isArray(terms)) {
       terms.forEach((val) => {
@@ -203,7 +225,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
+   * Populate Search Result
+   *
    * Takes in the index name, searches the index for the search terms
+   *
    * @param  {String} indexName
    * @return {void}
    */
@@ -220,7 +245,10 @@ module.exports = class InvertedIndex {
   }
 
   /**
-   * sets the last searched file/index
+   * Set Last earched File
+   *
+   * Sets the last searched file/index
+
    * @param {String} indexName
    * @return {void}
    */
