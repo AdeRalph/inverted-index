@@ -5,20 +5,16 @@ var InvertedIndex = require('../src/inverted-index.js');
 
 var books = 'jasmine/books.json';
 var pages = 'jasmine/pages.json';
-var emptyFile = 'jasmine/inv-file.json';
+var index = new InvertedIndex();
+index.createIndex(pages);
+index.createIndex(books);
+var booksFileName = index.getFileName(books);
 
-
-beforeAll(function(){
-  index = new InvertedIndex();
-  index.createIndex(pages);
-  index.createIndex(books);
-  booksFileName = index.getFileName(books);
-});
 /**
 * Test suite for testing book.json data
 */
-describe ('Read book data', function () {
-  it ('should not be empty', function () {
+describe('Read book data', function () {
+  it('should not be empty', function () {
     fs.readFile(books, 'utf8', function (err, data) {
       if (err) throw (err);
       var fileContent = data.replace(/\s+/g, '');
@@ -31,7 +27,7 @@ describe ('Read book data', function () {
 /**
  * Populate index test suite
  */
-describe ('Populate index', function () {
+describe('Populate index', function () {
   it('should create a new index when a file has been read', function () {
     expect(index.indexes).not.toBe({});
     expect(typeof index.indexes[booksFileName]).toBe('object');
@@ -54,7 +50,7 @@ describe ('Populate index', function () {
 /**
  * Search Index test suite
  */
-describe ('Search Index', function() {
+describe('Search Index', function() {
 
 
   it('should return an array containing indices of the correct object', function() {
