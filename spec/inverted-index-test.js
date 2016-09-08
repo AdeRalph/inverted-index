@@ -90,6 +90,6 @@ describe('Search Index', function() {
   });
 
   it('ask for valid filename if a non existent filename is entered' , function(){
-    expect(index.searchIndex('random', 'random.txt')).toBe('enter a valid file name');
+    expect(function(){index.searchIndex('random', 'random.txt')}).toThrowError('Enter a valid filename');
   });
 });
