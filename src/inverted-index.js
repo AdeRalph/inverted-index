@@ -74,6 +74,18 @@ module.exports = class InvertedIndex {
     this.searchTerms = [];
     this.searchResult = [];
 
+    if (!Array.isArray(term) && (typeof term !== 'string')) {
+      throw new Error('Invalid search parameter');
+    }
+
+    if (indexFileName && !this.isValidFileName(indexFileName)) {
+      throw new Error('Enter a valid filename');
+    }
+
+    if (typeof term === 'string' && term.replace(/\s+/g, '').length === 0) {
+      return [];
+    }
+
     this.flattenSearchTerm(term);
 
     if (Object.hasOwnProperty.call(this.indexes, indexFileName)) {
@@ -86,6 +98,7 @@ module.exports = class InvertedIndex {
       }
       this.populateSearchResult(this.lastSearchedFile);
     }
+
     return this.searchResult;
   }
 
@@ -245,6 +258,14 @@ module.exports = class InvertedIndex {
     this.lastSearchedFile = indexName;
   }
 
+  /**
+   * Is Empty Array
+   *
+   * Checks if the parameter is a valid array
+   *
+   * @param  {String | Object | Number | Array}  content [description]
+   * @return {Boolean}
+   */
   isEmptyArray(content) {
     const parsedContent = JSON.parse(content);
     if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
@@ -252,5 +273,21 @@ module.exports = class InvertedIndex {
     }
 
     return false;
+  }
+
+  /**
+   * Is Valid File Name
+   *
+   * Checks if the parameter is a string and it exists as an index
+   *
+   * @param  {String | Object | Number | Array}  fileName
+   * @return {Boolean}
+   */
+  isValidFileName (fileName) {
+    if ((typeof fileName !== 'string') || this.indexes[fileName] === undefined) {
+      return false;
+    }
+
+    return true;
   }
 };
