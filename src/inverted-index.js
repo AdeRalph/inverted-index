@@ -27,6 +27,14 @@ module.exports = class InvertedIndex {
       throw new Error('file has no content');
     }
 
+    try {
+      if (this.isEmptyArray(fileContent)) {
+        throw new Error('not a valid json array');
+      }
+    } catch(err) {
+      throw new Error('not a valid json array');
+    }
+
     this.indexFileContent[fileName] = fileContent;
     this.indexes[fileName] = this.parseFileContent(fileName);
   }
@@ -110,12 +118,14 @@ module.exports = class InvertedIndex {
     let counter = 0;
 
     Object.keys(fileJson).forEach((key) => {
-      const title = this.tokenize(fileJson[key].title);
-      const text = this.tokenize(fileJson[key].text);
-      const uniqueContent = this.uniqueValues(title.concat(text));
+      if (!this.isEmptyObject(fileJson[key])) {
+        const title = this.tokenize(fileJson[key].title);
+        const text = this.tokenize(fileJson[key].text);
+        const uniqueContent = this.uniqueValues(title.concat(text));
 
-      objectCount[counter] = uniqueContent;
-      counter++;
+        objectCount[counter] = uniqueContent;
+        counter++;
+      }
     });
 
     return this.createFileIndex(objectCount);
@@ -233,5 +243,22 @@ module.exports = class InvertedIndex {
    */
   setLastSearchedFile(indexName) {
     this.lastSearchedFile = indexName;
+  }
+
+  isEmptyArray(content) {
+    const parsedContent = JSON.parse(content);
+    if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  isEmptyObject(content){
+    if (content.toString !== {}.toString() || (Object.keys(content).length < 1)) {
+      return true;
+    }
+
+    return false;
   }
 };
