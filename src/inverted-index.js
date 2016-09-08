@@ -27,6 +27,14 @@ module.exports = class InvertedIndex {
       throw new Error('file has no content');
     }
 
+    try {
+      if (this.isEmptyArray(fileContent)) {
+        throw new Error('not a valid json array');
+      }
+    } catch(err) {
+      throw new Error('not a valid json array');
+    }
+
     this.indexFileContent[fileName] = fileContent;
     this.indexes[fileName] = this.parseFileContent(fileName);
   }
@@ -66,6 +74,18 @@ module.exports = class InvertedIndex {
     this.searchTerms = [];
     this.searchResult = [];
 
+    if (!Array.isArray(term) && (typeof term !== 'string')) {
+      throw new Error('Invalid search parameter');
+    }
+
+    if (indexFileName && !this.isValidFileName(indexFileName)) {
+      throw new Error('Enter a valid filename');
+    }
+
+    if (typeof term === 'string' && term.replace(/\s+/g, '').length === 0) {
+      return [];
+    }
+
     this.flattenSearchTerm(term);
 
     if (Object.hasOwnProperty.call(this.indexes, indexFileName)) {
@@ -78,6 +98,7 @@ module.exports = class InvertedIndex {
       }
       this.populateSearchResult(this.lastSearchedFile);
     }
+
     return this.searchResult;
   }
 
@@ -110,12 +131,14 @@ module.exports = class InvertedIndex {
     let counter = 0;
 
     Object.keys(fileJson).forEach((key) => {
-      const title = this.tokenize(fileJson[key].title);
-      const text = this.tokenize(fileJson[key].text);
-      const uniqueContent = this.uniqueValues(title.concat(text));
+      if (Object.keys(fileJson[key]).length > 0) {
+        const title = this.tokenize(fileJson[key].title);
+        const text = this.tokenize(fileJson[key].text);
+        const uniqueContent = this.uniqueValues(title.concat(text));
 
-      objectCount[counter] = uniqueContent;
-      counter++;
+        objectCount[counter] = uniqueContent;
+        counter++;
+      }
     });
 
     return this.createFileIndex(objectCount);
@@ -233,5 +256,38 @@ module.exports = class InvertedIndex {
    */
   setLastSearchedFile(indexName) {
     this.lastSearchedFile = indexName;
+  }
+
+  /**
+   * Is Empty Array
+   *
+   * Checks if the parameter is a valid array
+   *
+   * @param  {String | Object | Number | Array}  content [description]
+   * @return {Boolean}
+   */
+  isEmptyArray(content) {
+    const parsedContent = JSON.parse(content);
+    if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Is Valid File Name
+   *
+   * Checks if the parameter is a string and it exists as an index
+   *
+   * @param  {String | Object | Number | Array}  fileName
+   * @return {Boolean}
+   */
+  isValidFileName (fileName) {
+    if ((typeof fileName !== 'string') || this.indexes[fileName] === undefined) {
+      return false;
+    }
+
+    return true;
   }
 };
