@@ -118,7 +118,7 @@ module.exports = class InvertedIndex {
     let counter = 0;
 
     Object.keys(fileJson).forEach((key) => {
-      if (!this.isEmptyObject(fileJson[key])) {
+      if (Object.keys(fileJson[key]).length > 0) {
         const title = this.tokenize(fileJson[key].title);
         const text = this.tokenize(fileJson[key].text);
         const uniqueContent = this.uniqueValues(title.concat(text));
@@ -248,14 +248,6 @@ module.exports = class InvertedIndex {
   isEmptyArray(content) {
     const parsedContent = JSON.parse(content);
     if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
-      return true;
-    }
-
-    return false;
-  }
-
-  isEmptyObject(content){
-    if (content.toString !== {}.toString() || (Object.keys(content).length < 1)) {
       return true;
     }
 
