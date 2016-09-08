@@ -23,19 +23,22 @@ module.exports = class InvertedIndex {
     const fileName = this.getFileName(filePath);
     const fileContent = fs.readFileSync(filePath, 'utf8');
 
+    // test if the file is an empty file
     if (fileContent.replace(/\s+/g, '').length === 0) {
       throw new Error('file has no content');
     }
 
+    // Tests for a valid array in the file
+    // try catch block catches error thrown if JSON.parse tries to parse
+    // a string o invalid array
     try {
-      if (this.isEmptyArray(fileContent)) {
-        throw new Error('not a valid json array');
-      }
+      this.isEmptyArray(fileContent);
     } catch(err) {
       throw new Error('not a valid json array');
     }
 
     this.indexFileContent[fileName] = fileContent;
+
     this.indexes[fileName] = this.parseFileContent(fileName);
   }
 
@@ -82,16 +85,24 @@ module.exports = class InvertedIndex {
       throw new Error('Enter a valid filename');
     }
 
+    // Deal with empty strings "" or " "
     if (typeof term === 'string' && term.replace(/\s+/g, '').length === 0) {
       return [];
     }
 
+    // Turns embedded arrays and string to flat arrays
     this.flattenSearchTerm(term);
 
     if (Object.hasOwnProperty.call(this.indexes, indexFileName)) {
+
+      // Set the lastSearched file as the specified file provided as the second
+      // parameter
       this.setLastSearchedFile(indexFileName);
       this.populateSearchResult(indexFileName);
     } else {
+
+      // If indexFileName isn't set then use lastSearchedFile and if
+      // lastSearchedFile isn't set use the last indexed file
       if (this.lastSearchedFile === '') {
         const indexNameLength = Object.keys(this.indexes).length;
         this.setLastSearchedFile(Object.keys(this.indexes)[indexNameLength - 1]);
@@ -130,6 +141,7 @@ module.exports = class InvertedIndex {
     const fileJson = JSON.parse(fileContent);
     let counter = 0;
 
+    // Go through each object in the file
     Object.keys(fileJson).forEach((key) => {
       if (Object.keys(fileJson[key]).length > 0) {
         const title = this.tokenize(fileJson[key].title);
@@ -156,7 +168,11 @@ module.exports = class InvertedIndex {
     const termKeys = Object.keys(term);
     const index = {};
 
+    // Pick each array in the object, the array represents an object from
+    // the file
     termKeys.forEach((key) => {
+
+      // Goes through each word in the array
       term[key].forEach((val) => {
         if (!Object.hasOwnProperty.call(index, val)) {
           index[val] = [];
@@ -264,15 +280,13 @@ module.exports = class InvertedIndex {
    * Checks if the parameter is a valid array
    *
    * @param  {String | Object | Number | Array}  content [description]
-   * @return {Boolean}
+   * @return {void}
    */
   isEmptyArray(content) {
     const parsedContent = JSON.parse(content);
     if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
-      return true;
+      throw new Error();
     }
-
-    return false;
   }
 
   /**
