@@ -37,7 +37,7 @@ describe('Create Index', function(){
 
   it('should have a valid JSON array', function(){
     // test for empty array
-    expect(function(){index.createIndex(empty_array)}).toThrowError('not a valid jso array');
+    expect(function(){index.createIndex(empty_array)}).toThrowError('not a valid json array');
 
     //test for empty object in array
     expect(function(){index.createIndex(empty_object)}).toThrowError('empty json object in array');
@@ -70,8 +70,15 @@ describe('Populate index', function () {
  * Search Index test suite
  */
 describe('Search Index', function() {
-  it('', function(){
+  it('should return an empty array to an empty string or array', function(){
+    expect(index.searchIndex([])).toEqual([]);
+    expect(index.searchIndex(" ")).toEqual([]);
+  });
 
+  it('should throw an error on invalid parameter', function(){
+    expect(function(){index.searchIndex({})}).toThrowError('Invalid search parameter');
+    expect(function(){index.searchIndex("alice", {})}).toThrowError('Enter a valid filename');
+    expect(function(){index.searchIndex("alice", [])}).toThrowError('Enter a valid filename');
   });
 
   it('should return an array containing indices of the correct object', function(){
@@ -84,5 +91,9 @@ describe('Search Index', function() {
 
   it('should be able to handle a varied number of search terms', function(){
     expect(index.searchIndex('a an alice wonderland hobbit dwarf')).toEqual([[0, 1], [1], [0], [0], [1], [1]]);
+  });
+
+  it('ask for valid filename if a non existent filename is entered' , function(){
+    expect(index.searchIndex('random', 'random.txt')).toBe('enter a valid file name');
   });
 });
