@@ -2,7 +2,7 @@
   "boss":      true,
   "node":      true,
   "eqeqeq":    true,
-  "strict":    "implied",
+  "strict":    true,
   "newcap":    false,
   "undef":     true,
   "unused":    true,
