@@ -34,7 +34,8 @@ module.exports = class InvertedIndex {
     try {
       this.isEmptyArray(fileContent);
     } catch(err) {
-      throw new Error('not a valid json array');
+      // throw new Error('not a valid json array');
+      return 'not a valid json array';
     }
 
     this.indexFileContent[fileName] = fileContent;
