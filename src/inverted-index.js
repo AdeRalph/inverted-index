@@ -31,12 +31,12 @@ module.exports = class InvertedIndex {
     // Tests for a valid array in the file
     // try catch block catches error thrown if JSON.parse tries to parse
     // a string o invalid array
-    try {
+    // try {
       this.isEmptyArray(fileContent);
-    } catch(err) {
-      // throw new Error('not a valid json array');
-      return 'not a valid json array';
-    }
+    // } catch(err) {
+    //   // throw new Error('not a valid json array');
+    //   return 'not a valid json array';
+    // }
 
     this.indexFileContent[fileName] = fileContent;
 
@@ -144,13 +144,15 @@ module.exports = class InvertedIndex {
 
     // Go through each object in the file
     Object.keys(fileJson).forEach((key) => {
-      if (Object.keys(fileJson[key]).length > 0) {
+      if (Object.keys(fileJson[key]).length > 0 && (typeof fileJson[key]) === 'object') {
         const title = this.tokenize(fileJson[key].title);
         const text = this.tokenize(fileJson[key].text);
         const uniqueContent = this.uniqueValues(title.concat(text));
 
         objectCount[counter] = uniqueContent;
         counter++;
+      } else {
+        throw new Error('not a valid json array');
       }
     });
 
@@ -286,7 +288,7 @@ module.exports = class InvertedIndex {
   isEmptyArray(content) {
     const parsedContent = JSON.parse(content);
     if (!Array.isArray(parsedContent) || parsedContent.length === 0) {
-      throw new Error();
+      throw new Error('not a valid json array');
     }
   }
 
@@ -298,7 +300,7 @@ module.exports = class InvertedIndex {
    * @param  {String | Object | Number | Array}  fileName
    * @return {Boolean}
    */
-  isValidFileName (fileName) {
+  isValidFileName(fileName) {
     if ((typeof fileName !== 'string') || this.indexes[fileName] === undefined) {
       return false;
     }
