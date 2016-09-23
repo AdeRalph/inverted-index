@@ -1,9 +1,9 @@
 var invert = require('./src/inverted-index.js');
 var app = new  invert();
 
-app.createIndex('jasmine/empty-object.json');
-console.log(app.getIndex('empty-object.json'));
-console.log(Object.keys(JSON.parse("{}")));
+app.createIndex('jasmine/empty-array.json');
+app.getIndex('empty-array.json');
+// console.log(Object.keys(JSON.parse("{}")));
 
 // console.log(app.searchIndex(" "));
 //

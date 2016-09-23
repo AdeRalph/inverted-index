@@ -36,7 +36,7 @@ describe('Create Index', function(){
 
   it('should have a valid JSON array', function(){
     // test for empty array
-    expect(index.createIndex(empty_array)).toBe('not a valid json array');
+    expect(function(){index.createIndex(empty_array)}).toThrow();
   });
 });
 
